@@ -12,8 +12,6 @@ on:
 jobs:
   build_ISOs:
     runs-on: ubuntu-22.04
-    container:
-      image: alpine:3.20
 
     steps:
       - uses: actions/checkout@v4
@@ -25,12 +23,18 @@ jobs:
           apk --no-cache add alpine-sdk build-base apk-tools alpine-conf \
               busybox fakeroot syslinux xorriso squashfs-tools sudo mtools \
               dosfstools grub-efi
+        container:
+          image: alpine:3.20
 
       - name: Download aports
         run: git clone --depth=1 https://gitlab.alpinelinux.org/alpine/aports.git
+        container:
+          image: alpine:3.20
 
       - name: Configure build keys
         run: echo | abuild-keygen -i -a
+        container:
+          image: alpine:3.20
 
       - name: Make ISO (${{ env.version }})
         run: |
@@ -45,6 +49,8 @@ jobs:
               --outdir ../../ \
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/main \
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/community
+        container:
+          image: alpine:3.20
 
       - name: Create and push tag
         run: |
