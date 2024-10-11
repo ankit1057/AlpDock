@@ -1,7 +1,7 @@
 env:
-  version: v3.20
+  version: v3.20-x86
 
-name: Alpine ISO Builder
+name: Alpine x86 ISO Builder
 
 on:
   push:
@@ -45,6 +45,13 @@ jobs:
               --outdir ../../ \
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/main \
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/community
+
+      - name: Create and push tag
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a ${version} -m "Release ${version}"
+          git push origin ${version}
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
