@@ -1,5 +1,5 @@
 env:
-  version: v3.20-x86
+  version: v3.20
 
 name: Alpine x86 ISO Builder
 
