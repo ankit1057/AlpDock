@@ -46,6 +46,15 @@ jobs:
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/main \
               --repository https://dl-cdn.alpinelinux.org/alpine/${version}/community
 
+      - name: Verify ISO file
+        run: |
+          if [ -f ../../*.iso ]; then
+            echo "ISO file found"
+          else
+            echo "ISO file not found"
+            exit 1
+          fi
+
       - name: Copy ISO to runner
         run: cp ../../*.iso .
 
